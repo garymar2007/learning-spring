@@ -27,6 +27,7 @@ public class ReservationService {
     final private GuestRepository guestRepository;
     final private ReservationRepository reservationRepository;
 
+    // this is the @autowired automatically for the only one constructor
     public ReservationService(RoomRepository roomRepository,
                               GuestRepository guestRepository,
                               ReservationRepository reservationRepository) {
