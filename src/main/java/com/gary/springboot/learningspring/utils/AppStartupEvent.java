@@ -1,22 +1,45 @@
 package com.gary.springboot.learningspring.utils;
 
-import com.gary.springboot.learningspring.data.Room;
-import com.gary.springboot.learningspring.data.RoomRepository;
+import com.gary.springboot.learningspring.business.ReservationService;
+import com.gary.springboot.learningspring.business.RoomReservation;
+import com.gary.springboot.learningspring.data.*;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+import java.util.List;
+
 @Component
 public class AppStartupEvent implements ApplicationListener<ApplicationReadyEvent> {
     private final RoomRepository roomRepository;
+    private final GuestRepository guestRepositry;
+    private final ReservationRepository reservationRepository;
+    private final ReservationService reservationService;
 
-    public AppStartupEvent(RoomRepository roomRepository) {
+    public AppStartupEvent(RoomRepository roomRepository,
+                           GuestRepository guestRepositry,
+                           ReservationRepository reservationRepository,
+                           ReservationService reservationService) {
         this.roomRepository = roomRepository;
+        this.guestRepositry = guestRepositry;
+        this.reservationRepository = reservationRepository;
+        this.reservationService = reservationService;
     }
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         Iterable<Room> rooms = this.roomRepository.findAll();
         rooms.forEach(System.out::println);
+
+        Iterable<Guest> guests = this.guestRepositry.findAll();
+        guests.forEach(System.out::println);
+
+        Iterable<Reservation> reservations = this.reservationRepository.findAll();
+        reservations.forEach(System.out::println);
+
+        Date date = new DateUtils().createDateFromDateString("2020-12-01");
+        List<RoomReservation> reservationsForDate = this.reservationService.getRoomReservationsForDate(date);
+        reservationsForDate.forEach(System.out::println);
     }
 }
