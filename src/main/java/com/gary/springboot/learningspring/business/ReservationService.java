@@ -1,7 +1,6 @@
 package com.gary.springboot.learningspring.business;
 
 import com.gary.springboot.learningspring.data.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -90,6 +89,23 @@ public class ReservationService {
     public List<Guest> getAllGuests() {
         List<Guest> guests = this.guestRepository.findAll();
         return guests;
+    }
+
+    public List<Room> getAllRooms() {
+        Iterable<Room> rooms = this.roomRepository.findAll();
+        List<Room> roomList = new ArrayList<>();
+        rooms.forEach(room -> {
+            roomList.add(room);
+        });
+
+        return roomList;
+    }
+
+    public Guest addGuest(Guest guest) {
+        if( null == guest) {
+            throw new RuntimeException("Guest cannot be null");
+        }
+        return this.guestRepository.save(guest);
     }
 }
 
