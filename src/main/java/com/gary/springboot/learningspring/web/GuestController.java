@@ -2,6 +2,7 @@ package com.gary.springboot.learningspring.web;
 
 import com.gary.springboot.learningspring.business.ReservationService;
 import com.gary.springboot.learningspring.business.RoomReservation;
+import com.gary.springboot.learningspring.data.Guest;
 import com.gary.springboot.learningspring.utils.DateUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,21 +14,18 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("/reservations")
-public class RoomReservationController {
-    private final DateUtils dateUtils;
+@RequestMapping("/guests")
+public class GuestController {
     private final ReservationService reservationService;
 
-    public RoomReservationController(DateUtils dateUtils, ReservationService reservationService) {
-        this.dateUtils = dateUtils;
+    public GuestController(ReservationService reservationService) {
         this.reservationService = reservationService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getReservations(@RequestParam(value="data", required=false) String dateString, Model model) {
-        Date date = this.dateUtils.createDateFromDateString(dateString);
-        List<RoomReservation> roomReservations = this.reservationService.getRoomReservationsForDate(date);
-        model.addAttribute("roomReservations", roomReservations);
-        return "roomres";
+    public String getQuests(Model model) {
+        List<Guest> guests = this.reservationService.getAllGuests();
+        model.addAttribute("guests", guests);
+        return "guests";
     }
 }
