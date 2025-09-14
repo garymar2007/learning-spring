@@ -21,7 +21,7 @@ public class ReservationService {
 //    private ReservationRepository reservationRepository;
 
 
-    //IoC Method 3 - best practic: final properties with constructors to make singletons in IoC
+    //IoC Method 3 - best practice: final properties with constructors to make singletons in IoC
     final private RoomRepository roomRepository;
     final private GuestRepository guestRepository;
     final private ReservationRepository reservationRepository;
@@ -86,10 +86,15 @@ public class ReservationService {
         return roomReservations;
     }
 
+    //Before Advice
     public List<Guest> getAllGuests() {
         List<Guest> guests = this.guestRepository.findAll();
         return guests;
     }
+    //After Advice -> consider Exception
+    //After returning Advice -> consider return value No exception
+    //After throwing Advice -> consider Exception only
+    //Around Advice -> Before + After
 
     public List<Room> getAllRooms() {
         Iterable<Room> rooms = this.roomRepository.findAll();
